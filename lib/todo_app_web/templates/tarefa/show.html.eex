@@ -1,0 +1,5 @@
+<p>Salvou</p>
+
+<%= "Título: #{@tarefa["titulo"]}" %>
+</br>
+<%= "Pronto: #{@tarefa["pronto"]}" %>

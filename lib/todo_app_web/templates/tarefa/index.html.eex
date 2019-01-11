@@ -1,0 +1,33 @@
+<h3>Listagem de tarefas</h3>
+
+ <table class="centered">
+  <thead>
+    <tr>
+      <th>Título</th>
+      <th>Pronto?</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <%= for tarefa <- @tarefas do %>
+      <tr>
+        <td><%= tarefa.titulo %></td>
+        <td><%= tarefa.pronto %></td>
+        <td class="secondary-content"><%= link  to: Routes.tarefa_path(@conn, :edit, tarefa) do %>
+          <i class="material-icons">edit</i>
+        <% end %>
+        <%= link  to: Routes.tarefa_path(@conn, :delete, tarefa), method: :delete do %>
+          <i class="material-icons">delete</i>
+        <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="fixed-action-btn">
+  <%= link to: "/new", class: "btn-floating wavrs-effect waves-light red" do %>
+    <i class="material-icons">add</i>
+  <% end %>
+</div>

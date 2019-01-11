@@ -1,0 +1,11 @@
+<h3>Editar tarefa</h3>
+
+<%= form_for @changeset, Routes.tarefa_path(@conn, :update, @tarefa), fn f -> %>
+  <div class="form-group col-md-8">
+    <%= text_input f, :titulo, placeholder: "Título", class: "form-control col-md-6" %>
+    <%= error_tag f, :titulo %>
+    <%= select f, :pronto, [true, false], class: "form-control col-md-6", style: "display: block", prompt: "Tarefa finalizada?" %>
+    <%= error_tag f, :pronto %>
+  </div>
+  <%= submit "Salvar", class: "btn btn-primary"%>
+<% end %>
