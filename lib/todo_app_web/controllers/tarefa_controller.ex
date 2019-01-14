@@ -4,6 +4,9 @@ defmodule TodoAppWeb.TarefaController do
   alias TodoApp.Tarefa
   alias TodoApp.Repo
 
+  plug TodoAppWeb.Plug.RequireAuth when action in [:create, :update, :edit, :delete, :new]
+  plug :verifica_permissao when action in [:update, :edit, :delete]
+
   def index(conn, _param) do
     render conn, "index.html", tarefas: Repo.all(Tarefa)
   end
@@ -14,7 +17,11 @@ defmodule TodoAppWeb.TarefaController do
   end
   
   def create(conn, %{"tarefa" => tarefa}) do
-    changeset = Tarefa.changeset(%Tarefa{}, tarefa)
+    changeset =
+    conn.assigns.user
+    |> Ecto.build_assoc(:tarefas)
+    |> Tarefa.changeset(tarefa)
+
     case Repo.insert changeset do
       {:ok, struct} ->
         conn
@@ -51,6 +58,19 @@ defmodule TodoAppWeb.TarefaController do
     conn
     |> put_flash(:info, "Tarefa deletada")
     |> redirect to: Routes.tarefa_path conn, :index
+  end
+
+  def verifica_permissao(conn, _params) do
+    %{params: %{"id" => tarefa_id}} = conn
+
+    if Repo.get(Tarefa, tarefa_id).usuario_id == conn.assigns.user.id do
+      conn
+    else
+      conn
+      |> put_flash(:error, "Essa tarefa não é sua.")
+      |> redirect(to: Routes.tarefa_path(conn, :index))
+      |> halt
+    end
   end
 
 end

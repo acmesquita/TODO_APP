@@ -1,3 +1,4 @@
+<%= if @conn.assigns[:user] do %>
 <h3>Listagem de tarefas</h3>
 
  <table class="centered">
@@ -11,6 +12,7 @@
 
   <tbody>
     <%= for tarefa <- @tarefas do %>
+    <%= if @conn.assigns.user.id == tarefa.usuario_id do %>
       <tr>
         <td><%= tarefa.titulo %></td>
         <td><%= tarefa.pronto %></td>
@@ -31,3 +33,9 @@
     <i class="material-icons">add</i>
   <% end %>
 </div>
+<% end %>
+<% else %>
+
+<p>Click em Entrar para visualizar as tarefas</p>
+
+<% end %>

@@ -24,7 +24,15 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+config :ueberauth, Ueberauth,
+  providers: [
+    github: {Ueberauth.Strategy.Github, [default_scope: "user,public_repo,notifications"]}
+  ]
+config :ueberauth, Ueberauth.Strategy.Github.OAuth,
+client_id: "c4d6e0ccde4abfb7bc87",
+client_secret: "74dc8bf7b4743f42e04da1093fc8a5ef5413e0c3"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
+

@@ -13,9 +13,14 @@
     <header>
       <nav class="blue">
         <div class="nav-wrapper">
-          <a href="#" class="brand-logo">Logo</a>
+          <a href="/" class="brand-logo">Todo List</a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="/">Home</a></li>
+            <%= if @conn.assigns[:user] do %>
+              <li><%= gettext "Olá, %{nome} |", nome: @conn.assigns.user.nome %></li>
+              <li><%= link "Sair", to: Routes.auth_path(@conn, :logout, "github") %></li>
+            <%= else %>
+              <li><%= link "Entrar", to: Routes.auth_path(@conn, :request, "github") %></li>
+            <% end %>
           </ul>
         </div>
       </nav>
